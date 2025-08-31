@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Star, BookOpen, Clock, Heart, Plus, Play, Pause, MoreVertical } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -27,6 +28,7 @@ interface EnhancedBookCardProps {
 }
 
 export function EnhancedBookCard({ 
+  id,
   title, 
   author, 
   cover, 
@@ -45,6 +47,15 @@ export function EnhancedBookCard({
   onFavoriteToggle
 }: EnhancedBookCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick()
+    } else {
+      navigate(`/book/${id}`)
+    }
+  }
   
   const statusColors = {
     "want-to-read": "bg-blue-500/10 text-blue-600 border-blue-500/20",
@@ -63,7 +74,7 @@ export function EnhancedBookCard({
   return (
     <div 
       className="group cursor-pointer book-card-hover gradient-card rounded-2xl p-6 border border-border/50 bg-card hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
-      onClick={onClick}
+      onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
